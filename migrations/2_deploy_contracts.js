@@ -1,5 +1,5 @@
-var TweetAccount = artifacts.require("./TweetAccount.sol");
+var Chat = artifacts.require("./Chat.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(TweetAccount);
+  deployer.deploy(Chat);
 };

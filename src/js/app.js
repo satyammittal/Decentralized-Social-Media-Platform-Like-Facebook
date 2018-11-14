@@ -18,6 +18,7 @@ App = {
       // Specify default instance if no web3 instance provided
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
       web3 = new Web3(App.web3Provider);
+      
     }
     return App.initContract();
   },
@@ -54,16 +55,74 @@ render: function() {
 },
 login: function() {
   var username = $('#username').val();
+  //console.log(username);
   var address = $('#address').val();
   App.contracts.Chat.deployed().then(function(instance) {
   //  return instance.vote(username, { from: App.account });
-    console.log(instance.register(username, address, { from: address }));
-    return instance.register(username, address, { from: address });
+    return instance.register(username, address, {from: web3.eth.accounts[1], gas:3000000});
   }).then(function(result) {
     console.log(result);
     // Wait for votes to update
     $("#content").hide();
     $("#loader").show();
+    App.checkposts();
+    $("#posts").show();
+  }).catch(function(err) {
+    console.error(err);
+  });
+},
+checkposts: function(){
+  var paras = document.getElementsByClassName('myposts');
+  $('.myposts').remove();
+  var ans = new Array();
+  var gettweet = function(val) 
+  {
+    App.contracts.Chat.deployed().then(function(instance) {
+      //  return instance.vote(username, { from: App.account });
+        return instance.getTweet(val, {from: web3.eth.accounts[1], gas:3000000});
+      }).then(function(result) {
+        var res = result;
+        var mess = res[0];
+        var user = res[2];
+        ans[0] = mess;
+        ans[1] = user;
+        var ul = $('#allposts');
+        var child = ul.find('li:first').clone(true);
+        child[0].style.display="block";
+        console.log(child[0].querySelector("#postname"));
+        child[0].querySelector("#postname").text = user;
+        child[0].querySelector("#postmessage").innerHTML = mess;
+        child[0].classList.add("myposts");
+        child.appendTo(ul);
+      }).catch(function(err) {
+        console.error(err);
+      });
+      
+  };
+  
+
+  App.contracts.Chat.deployed().then(function(instance) {
+    //  return instance.vote(username, { from: App.account });
+      return instance.getNumberOfTweets({from: web3.eth.accounts[1], gas:3000000});
+    }).then(function(result) {
+      for (i = 0; i < result['c'][0]; i++) { 
+        gettweet(i)
+      }
+    }).catch(function(err) {
+      console.error(err);
+    });
+},
+post: function() {
+  var tweet = $('#tweet').val();
+  $('#tweet').val("");
+  App.contracts.Chat.deployed().then(function(instance) {
+  //  return instance.vote(username, { from: App.account });
+    return instance.tweet(tweet, {from: web3.eth.accounts[1], gas:3000000});
+  }).then(function(result) {
+    console.log(result);
+    // Wait for votes to update
+    $("#posts").show();
+    App.checkposts();
   }).catch(function(err) {
     console.error(err);
   });

@@ -145,10 +145,14 @@ body {
 
     }); </script>
 
-   <img src="chitter1.jpeg" alt="logo" id = "logo" align="middle" style="width:500px;height:128px;>
+   <img src="chitter1.jpeg" alt="logo" id = "logo" align="middle" style="width:500px;height:128px;"/>
   <br>
   <br>
   <div class="container">
+      <div id="loader">
+          <p class="text-center">Loading...</p>
+      </div>
+    <div id="content" style="display: none;">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div class="panel panel-login">
@@ -162,7 +166,7 @@ body {
           <div class="panel-body" style="background-color:grey">
             <div class="row">
               <div class="col-lg-12">
-                <form id="login-form" method="get" role="form" style="display: block;">
+                <form id="login-form" method="get" role="form" style="display: block;" onSubmit="App.login(); return false;">
                   <div class="form-group">
                     <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Enter your username" value="">
                   </div>
@@ -176,12 +180,20 @@ body {
                       </div>
                     </div>
                   </div>
-                    </form>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    </div>
   </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
 </body>

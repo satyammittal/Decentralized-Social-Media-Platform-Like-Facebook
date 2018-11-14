@@ -1,8 +1,8 @@
+pragma solidity ^0.4.0;
 contract Chat{
     
     // data structure of a single tweet
 	struct Tweet {
-		
 		uint timestamp;
 		string tweetString;
 	}
@@ -13,10 +13,10 @@ contract Chat{
     mapping (uint => Tweet) _tweets;
     mapping (uint => string) _TweetToaccountId;
 
-    uint _numberOfAccounts;
-    uint _numberOfTweets;
+    uint256 _numberOfAccounts=0;
+    uint _numberOfTweets=0;
 
-    function DTweet() {
+    function Chat() {
         _numberOfAccounts = 0;
         _numberOfTweets = 0;
     }
@@ -99,4 +99,6 @@ contract Chat{
 		timestamp = _tweets[tweetId].timestamp;
         username = _TweetToaccountId[tweetId];
 	}
+
+
 }
